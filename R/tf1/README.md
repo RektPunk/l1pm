@@ -3,7 +3,7 @@
 - Tensorflow >= 1.14 & < 2
 
 ### Install tutorial
-```
+```R
 if(!require(Rcpp)) install.packages('Rcpp'); require(Rcpp)
 if(!require(devtools)) install.packages('devtools'); require(devtools)
 if(!require(tensorflow)) 
