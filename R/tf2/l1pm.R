@@ -53,7 +53,7 @@ l1_p <- function(X, y, test_X, valid_X, tau, hidden_dim1, hidden_dim2, learning_
       predicted_y_modified <- tf$matmul(inputs, beta_mat[2:(self$input_dim + 1), ]) +
         tf$cumsum(tf$concat(list(beta_mat[1, 1, drop = FALSE], self$delta_0_vec_clipped), axis = 1L), axis = 1L)
       predicted_y <- tf$matmul(inputs, beta_mat[2:(self$input_dim + 1), ]) + beta_mat[1, ]
-      predicted_y_tiled <- tf$reshape(tf$transpose(predicted_y), shape = tf$constant(as.integer(c(n * self$units, 1)), dtype = tf$int32))
+      predicted_y_tiled <- tf$reshape(tf$transpose(predicted_y), shape = tf$constant(as.integer(c(-1L, 1)), dtype = tf$int32))
       return(predicted_y_tiled)
     }
   )
