@@ -1,5 +1,5 @@
 # l1-penalizing method
-- [Learning Multiple Quantiles With Neural Networks](https://www.tandfonline.com/doi/full/10.1080/10618600.2021.1909601)
+- Here is the code implementing the l1-penalizing method introduced in [Learning Multiple Quantiles With Neural Networks](https://www.tandfonline.com/doi/full/10.1080/10618600.2021.1909601).
 - The algorithm provides non-crossing quantiles estimates of response variable for given explanatory data.
 - Additionally, projected gradient descent method and interior-point method for multiple quantiles are also included.
 
