@@ -1,8 +1,8 @@
 import keras
 import numpy as np
-import numpy.typing as npt
 import tensorflow as tf
 from keras import layers
+from numpy.typing import NDArray
 
 
 class OutputLayer(layers.Layer):
@@ -57,11 +57,11 @@ class OutputLayer(layers.Layer):
 
 
 def l1_p(
-    X: npt.NDArray[np.float64],
-    y: npt.NDArray[np.float64],
-    test_X: npt.NDArray[np.float64],
-    valid_X: npt.NDArray[np.float64],
-    tau: npt.NDArray[np.float64],
+    X: NDArray[np.float64],
+    y: NDArray[np.float64],
+    test_X: NDArray[np.float64],
+    valid_X: NDArray[np.float64],
+    tau: NDArray[np.float64],
     hidden_dim1: int,
     hidden_dim2: int,
     learning_rate: float,
