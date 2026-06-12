@@ -1,7 +1,11 @@
-# l1-penalizing method
-The l1-penalizing method introduced in "[Learning Multiple Quantiles With Neural Networks](https://www.tandfonline.com/doi/full/10.1080/10618600.2021.1909601)" provides non-crossing quantiles estimates of response variable for given explanatory data.
+<div style="text-align: center;">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&fontColor=276DC2&text=l1pm&height=120&fontSize=90">
+</div>
 
-## Cite
+The **l1-penalizing method (l1pm)** provides non-crossing quantiles estimates of the response variable for given explanatory data. It ensures valid multiple quantile predictions by leveraging neural networks with a specialized lasso penalty approach.
+
+## Citation
+If you use l1pm in your research or project, please cite it as follows:
 ```bibtex
 @article{moon2021learning,
   title={Learning multiple quantiles with neural networks},
