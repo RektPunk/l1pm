@@ -47,7 +47,7 @@ if __name__ == "__main__":
         hidden_dim2=4,
         learning_rate=0.005,
         max_deep_iter=5000,
-        penalty=0,
+        penalty=0.0,
         lambda_obj=5,
     )
 

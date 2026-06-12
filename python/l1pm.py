@@ -53,11 +53,7 @@ class OutputLayer(layers.Layer):
         # Use modified intercepts to ensure non-crossing for the intercept part
         predicted_y_modified = tf.matmul(inputs, beta_mat[1:, :]) + intercepts_modified
 
-        predicted_y_tiled = tf.reshape(
-            tf.transpose(predicted_y_modified), shape=[-1, 1]
-        )
-
-        return predicted_y_tiled
+        return predicted_y_modified
 
 
 def l1_p(
@@ -77,7 +73,7 @@ def l1_p(
     n = X.shape[0]
     r = len(tau)
 
-    tau_tf = tf.constant(np.repeat(tau, n).reshape(-1, 1), dtype=tf.float32)
+    tau_tf = tf.constant(tau, dtype=tf.float32)
 
     # Model definition
     model = keras.Sequential(
@@ -94,8 +90,7 @@ def l1_p(
     )
 
     def quantile_loss(y_true, y_pred):
-        y_true_tiled = tf.tile(y_true, [r, 1])
-        diff_y = y_true_tiled - y_pred
+        diff_y = y_true - y_pred
         loss = tf.reduce_mean(diff_y * (tau_tf - (tf.sign(-diff_y) + 1.0) / 2.0))
 
         output_layer = model.layers[-1]
@@ -141,7 +136,7 @@ def l1_p(
     y_test_predict = model.predict(test_X, batch_size=len(test_X))
 
     return {
-        "y_predict": y_predict.reshape(r, n).T,
-        "y_valid_predict": y_valid_predict.reshape(r, len(valid_X)).T,
-        "y_test_predict": y_test_predict.reshape(r, len(test_X)).T,
+        "y_predict": y_predict,
+        "y_valid_predict": y_valid_predict,
+        "y_test_predict": y_test_predict,
     }
