@@ -49,3 +49,15 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Python cache files
+__pycache__/
+
+# UV lock files
+uv.lock
+
+# Virtual environment
+.venv/
+
+# Generated plots
+*.png
