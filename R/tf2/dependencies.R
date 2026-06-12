@@ -22,4 +22,3 @@ reticulate::use_condaenv(condaenv = 'r-reticulate')
 
 require(tensorflow)
 tf$constant('Hellow')
-

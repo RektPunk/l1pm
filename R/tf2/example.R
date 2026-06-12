@@ -49,4 +49,3 @@ for(i in 1:ncol(fit_result$y_test_predict))
   points(x_test_data, fit_result$y_test_predict[, i], col = col_vec[i])
   # points(x_data, fit_result$y_predict[, i], col = col_vec[i])
 }
-
