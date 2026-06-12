@@ -41,11 +41,22 @@ l1_p = function(X, y, test_X, valid_X, tau, hidden_dim1, hidden_dim2, learning_r
       delta_mat = tf$concat(list(self$delta_0_mat, self$delta_coef_mat), axis = 0L)
       beta_mat = tf$transpose(tf$cumsum(tf$transpose(delta_mat)))
 
-      predicted_y = tf$matmul(inputs, beta_mat[2:(self$input_dim + 1), ]) + beta_mat[1, ]
-      predicted_y_tiled = tf$reshape(tf$transpose(predicted_y), shape = tf$constant(as.integer(c(-1L, 1)), dtype = tf$int32))
+      delta_vec = delta_mat[2:(self$input_dim + 1), 2:self$units]
+      self$delta_0_vec = delta_mat[1, 2:self$units, drop = FALSE]
+      delta_minus_vec = tf$maximum(0, -delta_vec)
+      delta_minus_vec_sum = tf$reduce_sum(delta_minus_vec, axis = 0L)
+      self$delta_0_vec_clipped = tf$clip_by_value(
+        self$delta_0_vec,
+        clip_value_min = delta_minus_vec_sum,
+        clip_value_max = tf$constant(Inf, shape = delta_minus_vec_sum$shape, dtype = tf$float32)
+      )
+      predicted_y_modified = tf$matmul(inputs, beta_mat[2:(self$input_dim + 1), ]) +
+        tf$cumsum(tf$concat(list(beta_mat[1, 1, drop = FALSE], self$delta_0_vec_clipped), axis = 1L), axis = 1L)
+      predicted_y_tiled = tf$reshape(tf$transpose(predicted_y_modified), shape = tf$constant(as.integer(c(-1L, 1)), dtype = tf$int32))
       return(predicted_y_tiled)
     }
   )
+
   output_layer = outputLayer(units = r, input_dim = hidden_dim2)
   model = keras_model_sequential()
   model %>% hidden_layer_1 %>% hidden_layer_2 %>% output_layer
