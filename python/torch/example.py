@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-from l1pm import l1_p
+from l1pm import L1PMRegressor
 
 if __name__ == "__main__":
     # Set seed for reproducibility
@@ -37,29 +37,26 @@ if __name__ == "__main__":
 
     ### Model fitting
     tau_vec = np.arange(0.1, 1.0, 0.1)  # 0.1, 0.2, ..., 0.9
-    fit_result = l1_p(
-        X=x_data,
-        y=y_data,
-        test_X=x_test_data,
-        valid_X=x_valid_data,
+    regerssor = L1PMRegressor(
         tau=tau_vec,
         hidden_dim1=4,
         hidden_dim2=4,
         learning_rate=0.005,
         max_deep_iter=5000,
-        penalty=0.0,
-        lambda_obj=5,
+        l1_penalty=5.0,
+        l2_penalty=0.0,
     )
+    regerssor.fit(X=x_data, y=y_data)
 
     ### Plotting
+    y_pred = regerssor.predict(x_test_data)
+
     plt.figure(figsize=(10, 6))
     plt.scatter(x_test_data, y_test, color="gray", alpha=0.3, label="Test Data")
 
     colors = plt.cm.rainbow(np.linspace(0, 1, len(tau_vec)))
-    for i in range(fit_result["y_test_predict"].shape[1]):
-        plt.scatter(
-            x_test_data, fit_result["y_test_predict"][:, i], color=colors[i], s=5
-        )
+    for i in range(y_pred.shape[1]):
+        plt.scatter(x_test_data, y_pred[:, i], color=colors[i], s=5)
 
     plt.title("L1PM Quantile Regression")
     plt.xlabel("x")
