@@ -1,8 +1,8 @@
 import numpy as np
-import numpy.typing as npt
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from numpy.typing import NDArray
 
 
 class L1PMDense(nn.Module):
@@ -93,7 +93,7 @@ class L1PMRegressor:
 
     def __init__(
         self,
-        tau: npt.NDArray[np.float64],
+        tau: NDArray[np.float64],
         hidden_dim1: int,
         hidden_dim2: int,
         learning_rate: float = 0.01,
@@ -102,7 +102,7 @@ class L1PMRegressor:
         l2_penalty: float = 0.0,
         device: str = "cpu",
     ) -> None:
-        self.tau: npt.NDArray[np.float64] = tau
+        self.tau: NDArray[np.float64] = tau
         self.hidden_dim1: int = hidden_dim1
         self.hidden_dim2: int = hidden_dim2
         self.learning_rate: float = learning_rate
@@ -114,9 +114,7 @@ class L1PMRegressor:
         # Model instance placeholder
         self.model: L1PMModel | None = None
 
-    def fit(
-        self, X: npt.NDArray[np.float64], y: npt.NDArray[np.float64]
-    ) -> "L1PMRegressor":
+    def fit(self, X: NDArray[np.float64], y: NDArray[np.float64]) -> "L1PMRegressor":
         """Trains the internal L1PMModel using the provided dataset."""
         X_tensor: torch.Tensor = torch.tensor(
             X, dtype=torch.float32, device=self.device
@@ -180,7 +178,7 @@ class L1PMRegressor:
 
         return self
 
-    def predict(self, X: npt.NDArray[np.float64]) -> npt.NDArray[np.float32]:
+    def predict(self, X: NDArray[np.float64]) -> NDArray[np.float32]:
         """Predicts multiple quantiles for the given input features."""
         if self.model is None:
             raise RuntimeError(
@@ -190,6 +188,6 @@ class L1PMRegressor:
         X_tensor = torch.tensor(X, dtype=torch.float32, device=self.device)
         self.model.eval()
         with torch.no_grad():
-            predictions: npt.NDArray[np.float32] = self.model(X_tensor).cpu().numpy()
+            predictions: NDArray[np.float32] = self.model(X_tensor).cpu().numpy()
 
         return predictions

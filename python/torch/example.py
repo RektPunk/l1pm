@@ -13,20 +13,13 @@ if __name__ == "__main__":
     n = 1000
     input_dim = 1
     x_data = np.random.uniform(-1, 1, (n, input_dim))
-    # sinc function: sin(pi*x) / (pi*x)
+
     # np.sinc(x) is defined as sin(pi*x) / (pi*x)
     sincx = np.sinc(x_data)
     Z = sincx.reshape(n, input_dim)
     # heteroscedastic noise
     ep = np.random.normal(0, 0.1 * np.exp(1 - x_data)).reshape(n, 1)
     y_data = Z + ep
-
-    ### valid data
-    x_valid_data = np.random.uniform(-1, 1, (n, input_dim))
-    sincx_valid = np.sinc(x_valid_data)
-    y_valid = sincx_valid.reshape(n, input_dim) + np.random.normal(
-        0, 0.1 * np.exp(1 - x_valid_data)
-    ).reshape(n, 1)
 
     ### test data
     x_test_data = np.random.uniform(-1, 1, (n, input_dim))
@@ -37,7 +30,7 @@ if __name__ == "__main__":
 
     ### Model fitting
     tau_vec = np.arange(0.1, 1.0, 0.1)  # 0.1, 0.2, ..., 0.9
-    regerssor = L1PMRegressor(
+    regressor = L1PMRegressor(
         tau=tau_vec,
         hidden_dim1=4,
         hidden_dim2=4,
@@ -46,10 +39,10 @@ if __name__ == "__main__":
         l1_penalty=5.0,
         l2_penalty=0.0,
     )
-    regerssor.fit(X=x_data, y=y_data)
+    regressor.fit(X=x_data, y=y_data)
 
     ### Plotting
-    y_pred = regerssor.predict(x_test_data)
+    y_pred = regressor.predict(x_test_data)
 
     plt.figure(figsize=(10, 6))
     plt.scatter(x_test_data, y_test, color="gray", alpha=0.3, label="Test Data")
