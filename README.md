@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-  <img src="https://capsule-render.vercel.app/api?type=transparent&fontColor=276DC2&text=l1pm&height=120&fontSize=90">
+  <img src="https://capsule-render.vercel.app/api?type=transparent&fontColor=0047AB&text=l1pm&height=120&fontSize=90">
 </div>
 
 The **l1-penalizing method (l1pm)** provides non-crossing quantiles estimates of the response variable for given explanatory data. It ensures valid multiple quantile predictions by leveraging neural networks with a specialized lasso penalty approach.
