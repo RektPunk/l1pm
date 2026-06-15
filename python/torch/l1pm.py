@@ -28,8 +28,8 @@ class L1PMDense(nn.Module):
         beta_mat = torch.cumsum(delta_mat, dim=1)
 
         # Slice out the weight and intercept variations for constraint validation
-        # delta_vec: (h, r - 1)  -> Weight variations excluding the first quantile
-        # delta_0_vec: (1, r - 1)   -> Intercept variations excluding the first quantile
+        # delta_vec: (h, r - 1) -> Weight variations excluding the first quantile
+        # delta_0_vec: (1, r - 1) -> Intercept variations excluding the first quantile
         delta_vec = delta_mat[1:, 1:]  # (h, r - 1)
         delta_0_vec = delta_mat[0:1, 1:]  # (1, r - 1)
 
