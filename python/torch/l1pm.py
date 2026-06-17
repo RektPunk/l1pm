@@ -5,7 +5,7 @@ import torch.optim as optim
 from numpy.typing import NDArray
 
 
-class L1PMDense(nn.Module):
+class L1PMLinear(nn.Module):
     """Custom Layer that ensures non-crossing multi-quantile outputs."""
 
     def __init__(self, in_features: int, r: int):
@@ -67,7 +67,7 @@ class L1PMDense(nn.Module):
 
 
 class L1PMModel(nn.Module):
-    """Model definition using the custom L1PMDense layer."""
+    """Model definition using the custom L1PMLinear layer."""
 
     def __init__(self, input_dim: int, hidden_dim1: int, hidden_dim2: int, r: int):
         super().__init__()
@@ -81,7 +81,7 @@ class L1PMModel(nn.Module):
         )
 
         # Our proposed custom layer
-        self.output_layer = L1PMDense(in_features=hidden_dim2, r=r)
+        self.output_layer = L1PMLinear(in_features=hidden_dim2, r=r)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         features = self.feature_extractor(x)
@@ -159,7 +159,7 @@ class L1PMRegressor:
             l2_reg = sum(torch.mean(param**2) for param in self.model.parameters())
 
             # Retrieve the L1 non-crossing penalty dynamically computed
-            # inside the L1PMDense forward pass to prevent quantile inversion.
+            # inside the L1PMLinear forward pass to prevent quantile inversion.
             l1pm_penalty = self.model.output_layer.penalty
 
             # Formulate the total objective function (Loss + L2 Ridge + L1 Penalty)
